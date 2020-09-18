@@ -1,0 +1,14 @@
+.status-bar {
+    text-align: right;
+    padding-right: 24px;
+}
+
+.status-bar-user-name {
+    padding-left: 12px;
+}
+.status-bar-docs {
+    padding-right: 8px;
+}
+.status-bar-button-icon {
+    cursor: pointer;
+}
