@@ -9,8 +9,8 @@ export default function () {
     return (
         <Card
             size={'small'}
-            title={<Text editable={{ onChange: setTitle }}>{title}</Text>}>
-
+            title={'Gráfico'}>
+            <Text editable={{ onChange: setTitle }}>{title}</Text>
         </Card>
     )
 }

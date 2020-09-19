@@ -3,9 +3,12 @@ import { Row, Col } from 'antd';
 import Tables from './Tables';
 import Visualizations from "./Visualizations";
 import ChartViewer from "./ChartViewer";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 export default function () {
     return (
+        <DndProvider backend={HTML5Backend}>
         <Row>
             <Col xs={5}>
                 <Tables />
@@ -19,5 +22,6 @@ export default function () {
                 <ChartViewer />
             </Col>
         </Row>
+        </DndProvider>
     )
 }
