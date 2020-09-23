@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Select, List, Tag, Typography } from "antd";
 import {
     FieldTimeOutlined,
@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { ItemTypes } from '../constants';
 import { useDrag } from 'react-dnd';
+import { store, SET_TABLE } from "../store";
 
 import measures from "./queries/measures";
 
@@ -58,12 +59,17 @@ function Field ({column}) {
 
 
 export default function () {
+    const [{ tableId }, dispatch] = useContext(store);
+
     return (
         <Card size={'small'} title={'Datos'}>
             <Select
+                value={tableId}
+                onChange={tableId => dispatch({type: SET_TABLE, tableId})}
                 placeholder={'Tablas'}
                 style={{width: '100%'}}>
-
+                <Select.Option value={'measures'}>Measures</Select.Option>
+                <Select.Option value={'events'}>Events</Select.Option>
             </Select>
             <List
                 style={{paddingTop: 8}}

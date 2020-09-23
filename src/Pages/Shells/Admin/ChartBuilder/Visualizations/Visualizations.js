@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Button, Card, Input, Menu, Dropdown, Radio, Tabs, Tag, Tooltip, Form, Typography } from 'antd';
 import {useDrop} from 'react-dnd';
 import {ItemTypes} from '../constants';
 import _ from 'lodash';
 import catalog from "./catalog";
 import { SettingOutlined, FormatPainterOutlined, FilterOutlined } from '@ant-design/icons';
+import {
+    store,
+    SET_FIELDS,
+    UNSET_FIELDS,
+    SET_CHART_TYPE
+} from "../store";
+
 
 const { Text } = Typography;
-const numericFloatOperator = [['∑', 'sum'], ['AVG', 'average'], ['MIN', 'min'], ['MAX', 'max']];
-const integerOperator = [['∑', 'sum'], ['C', 'count'], ['AVG', 'average'], ['MIN', 'min'], ['MAX', 'max']];
+const numericFloatOperator = [['SUM', 'sum'], ['AVG', 'avg'], ['MIN', 'min'], ['MAX', 'max']];
+const integerOperator = [['SUM', 'sum'], ['C', 'count'], ['AVG', 'avg'], ['MIN', 'min'], ['MAX', 'max']];
 const stringOperator = [['D', 'distinct'], ['C', 'count']];
 const timestampOperator = [['D', 'distinct'], ['DAY', 'day'], ['MONTH', 'month']];
 
@@ -55,7 +62,7 @@ function Option({field, value, onChange}) {
                 value = null;
             }
             else {
-                value = {value: getColumnValue(value)}
+                value = getColumnValue(value)
             }
 
             onChange(value);
@@ -71,7 +78,14 @@ function Option({field, value, onChange}) {
 
     function getColumnValue (nextColumn) {
         if (!_.isEmpty(nextColumn)) {
-            const v = _.map(nextColumn, c => c);
+            const v = _.map(
+                nextColumn,
+                ({name, type, operator}) => ({
+                    name,
+                    type: type.toLowerCase(),
+                    operator: operator[1]
+                })
+            );
 
             if (field.type === 'ARRAY') {
                 return v;
@@ -229,17 +243,35 @@ const layout = {
 
 
 export default function () {
-    const [chartType, setChartType] = React.useState('lines');
     const [form] = Form.useForm();
+    const [{ tableId, chartType }, dispatch] = useContext(store);
 
+    React.useEffect(() => {
+        form.resetFields();
+    }, [form, tableId]);
 
     function handleOnChangeChartType(e) {
-        setChartType(e.target.value);
+        dispatch({ type: SET_CHART_TYPE, chartType: e.target.value});
     }
 
-    async function handleValidateOptions () {
-        form.validateFields().then(values => console.log(values)).catch(info => {
-            console.log('Validate Failed:', info);
+    function handleValidateOptions (changedFields, allFields) {
+        form.validateFields().then(values => {
+            // console.log(values);
+            dispatch({type: SET_FIELDS, fields: values});
+        }).catch(info => {
+            // console.log('Validate Failed:', info);
+            const  { errorFields } = info;
+
+            if (!!errorFields) {
+                const { values } = info;
+
+                if (errorFields.length === 0) {
+                    dispatch({type: SET_FIELDS, fields: values});
+                }
+                else {
+                    dispatch({type: UNSET_FIELDS});
+                }
+            }
         });
     }
 
@@ -248,7 +280,11 @@ export default function () {
         <Card size={'small'} title={'Visualizaciones'}>
             <Radio.Group onChange={handleOnChangeChartType} value={chartType}>
                 {
-                    _.map(catalog, (chart, name) => <Radio.Button buttonStyle={'outline'} value={name}>{chart.label}</Radio.Button>)
+                    _.map(catalog, (chart, name) =>
+                        <Radio value={name} key={name}>
+                            {chart.label}
+                        </Radio>
+                    )
                 }
             </Radio.Group>
 
@@ -264,6 +300,7 @@ export default function () {
                         {...layout}
                         form={form}
                         name={'chart-settings'}
+                        onFinish={values => console.log(values)}
                         onValuesChange={handleValidateOptions}>
                         {
                             !!chartType && _.map(catalog[chartType].fields, (field, name) =>
@@ -277,11 +314,11 @@ export default function () {
                                 </Form.Item>
                             )
                         }
-                        <Form.Item>
+                        {/*<Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Submit
                             </Button>
-                        </Form.Item>
+                        </Form.Item>*/}
                     </Form>
                 </Tabs.TabPane>
 

@@ -1,4 +1,13 @@
 export default {
+    statistic: {
+        label: 'Estadística',
+        fields: {
+            variable: {
+                label: 'Variable',
+                type: 'NUMERIC'
+            }
+        }
+    },
     lines: {
         label: 'Líneas',
         fields: {
@@ -10,7 +19,7 @@ export default {
                 label: 'Eje Y',
                 type: 'ARRAY'
             },
-            color: {
+            legend: {
                 label: 'Leyenda',
                 type: 'STRING'
             }
@@ -27,9 +36,22 @@ export default {
                 label: 'Eje Y',
                 type: 'ARRAY'
             },
-            color: {
+            legend: {
                 label: 'Leyenda',
                 type: 'STRING'
+            }
+        }
+    },
+    pie: {
+        label: 'Pie',
+        fields: {
+            details: {
+                label: 'Detalle',
+                type: 'STRING'
+            },
+            value: {
+                label: 'Valor',
+                type: 'NUMERIC'
             }
         }
     },
