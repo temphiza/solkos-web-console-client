@@ -11,6 +11,7 @@ const SET_TABLE = 'SET_TABLE';
 const SET_FIELDS = 'SET_FIELDS';
 const UNSET_FIELDS = 'UNSET_FIELDS';
 const SET_CHART_TYPE = 'SET_CHART_TYPE';
+const UPDATE_STYLES = 'UPDATE_STYLES';
 
 
 const StateProvider = ({ children }) => {
@@ -46,6 +47,11 @@ const StateProvider = ({ children }) => {
                     else {
                         return {chartType};
                     }
+                case UPDATE_STYLES:
+                    const { styles } = action,
+                        prevStyles = 'styles' in state? state.styles: {};
+
+                    return {...state, styles: {...prevStyles, ...styles}};
                 default:
                     throw new Error();
             }
@@ -58,4 +64,4 @@ const StateProvider = ({ children }) => {
     );
 }
 
-export { store, StateProvider, SET_TABLE, SET_FIELDS, UNSET_FIELDS, SET_CHART_TYPE };
+export { store, StateProvider, SET_TABLE, SET_FIELDS, UNSET_FIELDS, SET_CHART_TYPE, UPDATE_STYLES };

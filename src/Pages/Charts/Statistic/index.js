@@ -1,6 +1,8 @@
 import React from 'react';
 import {Statistic} from 'antd';
 import helpers from "../../Utilis/helpers";
+import * as Icons from '@ant-design/icons';
+
 
 
 export default function ({chart, data}) {
@@ -26,11 +28,35 @@ export default function ({chart, data}) {
         return !!alias? alias: name;
     };
 
+    function renderIcon() {
+        const {styles} = chart;
+
+        if (!!styles && !!styles.icon) {
+            const Icon = Icons[styles.icon];
+            return <Icon />;
+        }
+    }
+
+    function getPrecision() {
+        const {styles} = chart;
+
+        return (!!styles && !!styles.precision) && styles.precision;
+    }
+
+    function getSuffix() {
+        const {styles} = chart;
+
+        return (!!styles && !!styles.suffix) && styles.suffix;
+    }
+
     return (
         <div style={{textAlign: 'left'}}>
             <Statistic
                 title={getTitle()}
-                value={renderValue()} />
+                prefix={renderIcon()}
+                suffix={getSuffix()}
+                value={renderValue()}
+                precision={getPrecision()}/>
         </div>
     );
 }

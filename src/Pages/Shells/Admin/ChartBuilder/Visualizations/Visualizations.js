@@ -1,30 +1,31 @@
 import React, {useContext} from "react";
-import {Button, Card, Input, Menu, Dropdown, Radio, Tabs, Tag, Tooltip, Form, Typography } from 'antd';
+import {Button, Card, Menu, Dropdown, Radio, Tabs, Tag, Tooltip, Form, Typography, Divider, Modal, Input, Popover} from 'antd';
 import {useDrop} from 'react-dnd';
 import {ItemTypes} from '../constants';
 import _ from 'lodash';
 import catalog from "./catalog";
-import { SettingOutlined, FormatPainterOutlined, FilterOutlined } from '@ant-design/icons';
+import { SettingOutlined, FormatPainterOutlined, FilterOutlined, CheckOutlined } from '@ant-design/icons';
 import {
     store,
     SET_FIELDS,
     UNSET_FIELDS,
     SET_CHART_TYPE
 } from "../store";
+import Styles from "./Styles";
 
 
 const { Text } = Typography;
 const numericFloatOperator = [['SUM', 'sum'], ['AVG', 'avg'], ['MIN', 'min'], ['MAX', 'max']];
 const integerOperator = [['SUM', 'sum'], ['C', 'count'], ['AVG', 'avg'], ['MIN', 'min'], ['MAX', 'max']];
 const stringOperator = [['D', 'distinct'], ['C', 'count']];
-const timestampOperator = [['D', 'distinct'], ['DAY', 'day'], ['MONTH', 'month']];
+const timestampOperator = [['DAY', 'day'], ['MONTH', 'month'], ['D', 'distinct']];
+const { confirm } = Modal;
 
 
-function Option({field, value, onChange}) {
-
+function Option({field, onChange}) {
     const [column, setColumn] = React.useState({});
-    const [option, setOption ] = React.useState('alias');
-
+    const [alias, setAlias] = React.useState('');
+    const [showPopover, setShowPopover] = React.useState(false);
     const [{ canDrop, isOver }, drop] = useDrop({
         accept: ItemTypes.COLUMN,
         drop: (item) => {
@@ -69,13 +70,6 @@ function Option({field, value, onChange}) {
         }
     };
 
-    const handleRemoveField = (target=undefined) => {
-        if (!!this.props.onRemove) {
-            const { name } = this.props;
-            this.props.onRemove(name, target);
-        }
-    };
-
     function getColumnValue (nextColumn) {
         if (!_.isEmpty(nextColumn)) {
             const v = _.map(
@@ -97,7 +91,6 @@ function Option({field, value, onChange}) {
     }
 
     function handleRemove (name) {
-
         if (name in column) {
             let nextColumn = {...column};
             delete nextColumn[name];
@@ -107,8 +100,22 @@ function Option({field, value, onChange}) {
         }
     }
 
-    const renderSelectedColumn = () => {
+    const handleUpdateAlias = (name) =>{
+        if (name in column) {
+            let c = column[name];
+            c.alias = alias;
 
+            let nextColumn = {...column, [name]: c};
+
+            triggerChange({value: nextColumn});
+            setColumn(nextColumn);
+            setAlias('');
+        }
+
+        setShowPopover(false);
+    };
+
+    const renderSelectedColumn = () => {
         return (
             <div>
                 {
@@ -118,7 +125,32 @@ function Option({field, value, onChange}) {
                                 <Dropdown overlayStyle={{width: 128}} overlay={getOperatorMenu(c)}>
                                     <Button type={'link'} size={'small'}>{c.operator[0]}</Button>
                                 </Dropdown>
-                                <Text strong>{c.name}</Text>
+                                <Tooltip title={!!c.alias? c.name: 'Has clic para editar alias'} placement={'bottom'}>
+                                    <Popover
+                                        visible={showPopover}
+                                        onVisibleChange={setShowPopover}
+                                        title={'Alias'}
+                                        content={
+                                            <Input.Group compact>
+                                                <Input
+                                                    style={{ width: '80%' }}
+                                                    value={alias}
+                                                    onChange={({ target: { value } }) => setAlias(value)}
+                                                    placeholder={'Escribe un alias...'}/>
+                                                <Button
+                                                    style={{ width: '20%' }}
+                                                    type={'primary'}
+                                                    disabled={alias.trim().length === 0}
+                                                    onClick={() => handleUpdateAlias(name)}
+                                                    icon={<CheckOutlined />}/>
+                                            </Input.Group>
+                                        }
+                                        trigger={'click'} >
+                                        <Text strong onClick={() => !!c.alias && setAlias(c.alias)}>
+                                            {!!c.alias? c.alias: c.name}
+                                        </Text>
+                                    </Popover>
+                                </Tooltip>
                                 <Button onClick={() => handleRemove(name)} size={'small'} type={'link'} style={{float: 'right'}} danger>x</Button>
                             </Tag>
                         </div>
@@ -195,12 +227,6 @@ function Option({field, value, onChange}) {
         }
     }
 
-    const handleClear = () => {
-        if (!!this.props.onClear) {
-            const { name } = this.props;
-            this.props.onClear(name);
-        }
-    };
     const isActive = canDrop && isOver;
     let backgroundColor = null;
 
@@ -210,20 +236,7 @@ function Option({field, value, onChange}) {
         backgroundColor = 'red';
     }
 
-    // console.log(value);
-
     return (
-        /*<div className={'option-content'}>
-            {
-                (field.type === 'array' && !!field.value) &&
-                <Tooltip title={'Borrar'}>
-                    <a onClick={this.handleClear} style={{paddingRight: 6}}>
-                        delete
-                    </a>
-                </Tooltip>
-            }
-            {field.label}: {!!field.value && }
-        </div>*/
         <div ref={drop} style={{padding: '0 0 6px'}}>
             <Tag color={backgroundColor} style={{width: '100%', paddingTop: 4, paddingBottom: 4}}>
                 {
@@ -292,7 +305,7 @@ export default function () {
                 <Tabs.TabPane
                     key={'settings'}
                     tab={
-                        <Tooltip title={'Configuración'}>
+                        <Tooltip placement={'bottom'} title={'Configuración'}>
                             <span style={{paddingLeft: 12}}><SettingOutlined /></span>
                         </Tooltip>
                     }>
@@ -300,7 +313,6 @@ export default function () {
                         {...layout}
                         form={form}
                         name={'chart-settings'}
-                        onFinish={values => console.log(values)}
                         onValuesChange={handleValidateOptions}>
                         {
                             !!chartType && _.map(catalog[chartType].fields, (field, name) =>
@@ -314,6 +326,8 @@ export default function () {
                                 </Form.Item>
                             )
                         }
+                        <Divider dashed orientation="left" plain><FilterOutlined /> Filtros</Divider>
+
                         {/*<Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Submit
@@ -325,17 +339,17 @@ export default function () {
                 <Tabs.TabPane
                     key={'styles'}
                     tab={
-                        <Tooltip title={'Estilo'}>
+                        <Tooltip placement={'bottom'} title={'Estilo'}>
                             <span style={{paddingLeft: 12}}><FormatPainterOutlined /></span>
                         </Tooltip>
                     }>
-
+                    <Styles />
                 </Tabs.TabPane>
 
                 <Tabs.TabPane
                     key={'filters'}
                     tab={
-                        <Tooltip title={'Filtros'}>
+                        <Tooltip placement={'bottom'} title={'Filtros'}>
                             <span style={{paddingLeft: 12}}><FilterOutlined /></span>
                         </Tooltip>
                     }>

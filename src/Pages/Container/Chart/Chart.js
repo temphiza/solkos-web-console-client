@@ -2,7 +2,13 @@ import React from "react";
 import { Skeleton } from "antd";
 import Statistic from '../../Charts/Statistic';
 import Pie from '../../Charts/Pie';
-import {STATISTIC, PIE} from '../../Utilis/chart-type';
+import Cartesian from '../../Charts/Catersian';
+import {
+    STATISTIC,
+    PIE,
+    LINES,
+    BARS
+} from '../../Utilis/chart-type';
 
 
 export default function ({chart, data, loading}) {
@@ -19,6 +25,13 @@ export default function ({chart, data, loading}) {
             return (
                 <Skeleton active loading={loading} paragraph={{rows: 4}}>
                     <Pie chart={chart} data={data} height={480}/>
+                </Skeleton>
+            );
+        case LINES:
+        case BARS:
+            return (
+                <Skeleton active loading={loading} paragraph={{rows: 4}}>
+                    <Cartesian chartClass={chartType} chart={chart} data={data} height={480}/>
                 </Skeleton>
             );
         default:

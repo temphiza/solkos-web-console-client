@@ -14,7 +14,7 @@ const client = axios.create({
 
 export default function () {
     const [title, setTitle] = React.useState('Has clic pra editar...');
-    const [{tableId, chartType, fields, valid, updatedAt} , dispatch] = useContext(store);
+    const [{tableId, chartType, fields, styles, valid, updatedAt} , dispatch] = useContext(store);
     const [data, setData] = React.useState([{state: 'loading...'}]);
     const [loading, setLoading] = React.useState(true);
 
@@ -54,7 +54,7 @@ export default function () {
                     setLoading(false);
                 }
             }).catch(info => {
-                console.log(info.toJSON());
+                // console.log(info.toJSON());
                 setLoading(false);
             });
         }
@@ -67,7 +67,10 @@ export default function () {
             <Text editable={{ onChange: setTitle }}>{title}</Text>
             {
                 valid?
-                    <ChartContainer chart={{tableId, chartType, fields}} data={data} loading={loading} />:
+                    <ChartContainer
+                        chart={{tableId, chartType, fields, styles}}
+                        data={data}
+                        loading={loading} />:
                     <div>
                         <Text>Waiting...</Text>
                     </div>
