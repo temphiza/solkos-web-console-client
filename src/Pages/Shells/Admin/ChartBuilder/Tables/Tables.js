@@ -9,10 +9,16 @@ import {
 import { ItemTypes } from '../constants';
 import { useDrag } from 'react-dnd';
 import { store, SET_TABLE } from "../store";
+import {loader} from "graphql.macro";
+import { useQuery } from '@apollo/client';
 
 import measures from "./queries/measures";
+import events from "./queries/events";
+import readings from "./queries/readings";
 
 
+
+const GET_TABLES = loader('./queries/getTables.graphql');
 const fieldIconMap = {
     STRING: <FieldStringOutlined />,
     BOOL: <FieldBinaryOutlined />,
@@ -58,25 +64,51 @@ function Field ({column}) {
 }
 
 
+const consoleId = 1;
+const datasetId = 1;
+
 export default function () {
     const [{ tableId }, dispatch] = useContext(store);
+    const { loading, data } = useQuery(GET_TABLES, {variables: {consoleId, datasetId}});
+
+
+    function getOptions() {
+        switch (tableId) {
+            case 'measures':
+                return measures;
+            case 'events':
+                return events;
+            case 'readings':
+                return readings;
+            default:
+                return [];
+        }
+    }
 
     return (
-        <Card size={'small'} title={'Datos'}>
+        <Card
+            style={{height: '100%'}}
+            size={'small'}
+            title={'Datos'}>
             <Select
+                loading={loading}
                 value={tableId}
                 onChange={tableId => dispatch({type: SET_TABLE, tableId})}
                 placeholder={'Tablas'}
                 style={{width: '100%'}}>
-                <Select.Option value={'measures'}>Measures</Select.Option>
-                <Select.Option value={'events'}>Events</Select.Option>
+                {
+                    !!data && data.console.dataset.tables.map(table =>
+                        <Select.Option key={table.id} value={table.id}>{table.name}</Select.Option>
+                    )
+                }
             </Select>
             <List
+                loading={loading}
                 style={{paddingTop: 8}}
                 size={'small'}
                 bordered={false}
                 split={false}
-                dataSource={measures}
+                dataSource={getOptions()}
                 renderItem={column => (
                     <List.Item style={{padding: '0 0 6px'}}>
                         <Field column={column} />

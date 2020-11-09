@@ -1,5 +1,6 @@
 import React from "react";
 import { Layout, Menu, Row, Col } from "antd";
+import { Switch, Route, Link } from 'react-router-dom';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
@@ -9,6 +10,8 @@ import {
 } from '@ant-design/icons';
 import StatusBar from "../../../Components/StatusBar";
 import Footer from "../../../Components/Footer";
+
+import DashboardBuilder from "./DashboardBuilder";
 import ChartBuilder from "./ChartBuilder";
 
 const { SubMenu } = Menu;
@@ -24,8 +27,12 @@ export default function () {
                 <div className="logo" />
                 <Menu theme="dark" mode="inline">
                     <SubMenu key={'console'} icon={<DashboardOutlined />} title={'Tablero'}>
+                        <Menu.Item key={'/dashboard-builder'}>
+                            <Link to={'/builder'}>Editor</Link>
+                        </Menu.Item>
+
                         <Menu.Item key={'/chart-builder'}>
-                            Editor
+                            <Link to={'/builder'}>Editor</Link>
                         </Menu.Item>
 
                         <Menu.Item key={'/dashboard-list'}>
@@ -64,14 +71,15 @@ export default function () {
                     </Row>
                 </Header>
                 <Content
-                    className="site-layout-background"
                     style={{
                         margin: '24px 16px',
-
                         minHeight: 280,
-                    }}
-                >
-                    <ChartBuilder />
+                    }}>
+                    <Switch>
+                        <Route path={'/builder'} >
+                            <ChartBuilder />
+                        </Route>
+                    </Switch>
                 </Content>
 
                 <Footer />

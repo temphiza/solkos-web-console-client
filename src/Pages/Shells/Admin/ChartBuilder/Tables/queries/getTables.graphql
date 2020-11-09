@@ -1,0 +1,16 @@
+query GetTables($consoleId: ID!, $datasetId: ID!) {
+    console(consoleId: $consoleId) {
+        dataset(datasetId: $datasetId) {
+            tables {
+                id
+                name
+                fields {
+                    id
+                    name
+                    description
+                    type
+                }
+            }
+        }
+    }
+}

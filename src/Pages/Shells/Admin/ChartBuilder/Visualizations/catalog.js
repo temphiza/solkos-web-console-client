@@ -72,4 +72,25 @@ export default {
             }
         }
     },
+    liveTrackingMap: {
+        label: 'Mapa',
+        fields: {
+            id: {
+                label: 'Identificador',
+                type: 'STRING'
+            },
+            datetime: {
+                label: 'Fecha',
+                type: 'TIMESTAMP'
+            },
+            latitude: {
+                label: 'Latitude',
+                type: 'NUMERIC'
+            },
+            longitude: {
+                label: 'Longitude',
+                type: 'NUMERIC'
+            }
+        }
+    },
 }

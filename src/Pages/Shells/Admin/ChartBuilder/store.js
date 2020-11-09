@@ -2,8 +2,8 @@ import React, { createContext, useReducer } from "react";
 import dayjs from "dayjs";
 
 const initialState = {
-    tableId: 'measures',
-    chartType: 'lines'
+    tableId: 'readings',
+    chartType: 'liveTrackingMap'
 };
 const store = createContext(initialState);
 const { Provider } = store;

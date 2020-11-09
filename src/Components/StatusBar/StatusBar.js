@@ -3,7 +3,6 @@ import { Avatar, Dropdown, Menu, Badge, Divider, Tooltip, Drawer, Space } from "
 import {
     DownOutlined,
     LogoutOutlined,
-    ProfileOutlined,
     BellOutlined,
     QuestionCircleOutlined,
     UserOutlined
@@ -59,7 +58,7 @@ export default () => {
                     </Menu.Item>
                 </Menu>
             }>
-                <a className={'status-bar-user-name'} onClick={e => e.preventDefault()}>
+                <a href={'user-name'} className={'status-bar-user-name'} onClick={e => e.preventDefault()}>
                     {user.email} <DownOutlined />
                 </a>
             </Dropdown>

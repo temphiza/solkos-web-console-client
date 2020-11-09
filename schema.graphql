@@ -1,0 +1,785 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+interface MutationResponse {
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type Console {
+    "Created datetime"
+    createdAt: Datetime
+    customer(customerId: ID!): Customer!
+    customerConnection(after: String, filterBy: String, first: Int, orderBy: String): CustomerConnection!
+    customer_message_association(customer_message_associationId: ID!): CustomerMessageAssociation!
+    customer_message_associationConnection(after: String, filterBy: String, first: Int, orderBy: String): CustomerMessageAssociationConnection!
+    customer_message_associations: [CustomerMessageAssociation!]!
+    customers: [Customer!]!
+    dataset(datasetId: ID!): Dataset!
+    datasetConnection(after: String, filterBy: String, first: Int, orderBy: String): DatasetConnection!
+    datasets: [Dataset!]!
+    field(fieldId: ID!): Field!
+    fieldConnection(after: String, filterBy: String, first: Int, orderBy: String): FieldConnection!
+    fields: [Field!]!
+    id: ID
+    message(messageId: ID!): Message!
+    messageConnection(after: String, filterBy: String, first: Int, orderBy: String): MessageConnection!
+    messages: [Message!]!
+    "Nombre de la consola"
+    name: String!
+    table(tableId: ID!): Table!
+    tableConnection(after: String, filterBy: String, first: Int, orderBy: String): TableConnection!
+    tables: [Table!]!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type ConsoleConnection {
+    edges: [ConsoleNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type ConsoleNode {
+    cursor: String!
+    node: Console!
+}
+
+type ConsoleOutput {
+    "Created datetime"
+    createdAt: Datetime
+    id: ID
+    "Nombre de la consola"
+    name: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type CreateConsoleMutationResponse implements MutationResponse {
+    console: ConsoleOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateConsolesMutationResponse implements MutationResponse {
+    createdConsoles: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateCustomerMessageAssociationMutationResponse implements MutationResponse {
+    customer_message_association: CustomerMessageAssociationOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateCustomerMessageAssociationsMutationResponse implements MutationResponse {
+    createdCustomerMessageAssociations: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateCustomerMutationResponse implements MutationResponse {
+    customer: CustomerOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateCustomersMutationResponse implements MutationResponse {
+    createdCustomers: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateDatasetMutationResponse implements MutationResponse {
+    dataset: DatasetOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateDatasetsMutationResponse implements MutationResponse {
+    createdDatasets: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateFieldMutationResponse implements MutationResponse {
+    field: FieldOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateFieldsMutationResponse implements MutationResponse {
+    createdFields: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateMessageMutationResponse implements MutationResponse {
+    message: MessageOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateMessagesMutationResponse implements MutationResponse {
+    createdMessages: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type CreateTableMutationResponse implements MutationResponse {
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+    table: TableOutput
+}
+
+type CreateTablesMutationResponse implements MutationResponse {
+    createdTables: [Int!]
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type Customer {
+    "Usuario activo"
+    active: Boolean!
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    "Correo electrÃ³nico de la persona"
+    email: String!
+    "Nombres de la persona"
+    firstName: String!
+    id: ID
+    "Apellido paterno de la persona"
+    lastName: String!
+    messages: [CustomerMessageAssociation!]!
+    "ContraseÃ±a"
+    password: String!
+    "Apellido materno de la persona"
+    surName: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type CustomerConnection {
+    edges: [CustomerNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type CustomerMessageAssociation {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    customer: Customer
+    message: Message
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type CustomerMessageAssociationConnection {
+    edges: [CustomerMessageAssociationNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type CustomerMessageAssociationNode {
+    cursor: String!
+    node: CustomerMessageAssociation!
+}
+
+type CustomerMessageAssociationOutput {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type CustomerNode {
+    cursor: String!
+    node: Customer!
+}
+
+type CustomerOutput {
+    "Usuario activo"
+    active: Boolean!
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    "Correo electrÃ³nico de la persona"
+    email: String!
+    "Nombres de la persona"
+    firstName: String!
+    id: ID
+    "Apellido paterno de la persona"
+    lastName: String!
+    "ContraseÃ±a"
+    password: String!
+    "Apellido materno de la persona"
+    surName: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type Dataset {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    id: ID
+    "Nombre del conjunto de datos"
+    name: String!
+    table(tableId: ID!): Table!
+    tableConnection(after: String, filterBy: String, first: Int, orderBy: String): TableConnection!
+    tables: [Table!]!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type DatasetConnection {
+    edges: [DatasetNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type DatasetNode {
+    cursor: String!
+    node: Dataset!
+}
+
+type DatasetOutput {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    id: ID
+    "Nombre del conjunto de datos"
+    name: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type DeleteConsoleMutationResponse implements MutationResponse {
+    console: ConsoleOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteCustomerMessageAssociationMutationResponse implements MutationResponse {
+    customer_message_association: CustomerMessageAssociationOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteCustomerMutationResponse implements MutationResponse {
+    customer: CustomerOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteDatasetMutationResponse implements MutationResponse {
+    dataset: DatasetOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteFieldMutationResponse implements MutationResponse {
+    field: FieldOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteMessageMutationResponse implements MutationResponse {
+    message: MessageOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type DeleteTableMutationResponse implements MutationResponse {
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+    table: TableOutput
+}
+
+type Field {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    "DescripciÃ³n de la columna"
+    description: String!
+    id: ID
+    "Modo de la columna"
+    mode: FieldMode!
+    "Nombre de la columna"
+    name: String!
+    table: Table
+    "Tipo de dato de la columna"
+    type: FieldType!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type FieldConnection {
+    edges: [FieldNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type FieldNode {
+    cursor: String!
+    node: Field!
+}
+
+type FieldOutput {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    "DescripciÃ³n de la columna"
+    description: String!
+    id: ID
+    "Modo de la columna"
+    mode: FieldMode!
+    "Nombre de la columna"
+    name: String!
+    "Tipo de dato de la columna"
+    type: FieldType!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type LoginMutationResponse implements MutationResponse {
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+    user: SimpleUserOutput
+}
+
+type Message {
+    "Root id"
+    consoleId: ID!
+    "Contenido del mensaje"
+    content: String!
+    "Created datetime"
+    createdAt: Datetime
+    customer_message_association: CustomerMessageAssociation
+    customers: [CustomerMessageAssociation!]!
+    id: ID
+    messages: [Message!]!
+    "Padre del mensaje mensaje"
+    parent: Message
+    "Remitente del mensaje"
+    sender: Customer
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type MessageConnection {
+    edges: [MessageNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type MessageNode {
+    cursor: String!
+    node: Message!
+}
+
+type MessageOutput {
+    "Root id"
+    consoleId: ID!
+    "Contenido del mensaje"
+    content: String!
+    "Created datetime"
+    createdAt: Datetime
+    id: ID
+    "Padre del mensaje mensaje"
+    parent: Message
+    "Remitente del mensaje"
+    sender: Customer
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type Mutation {
+    createConsole(console: CreateConsoleInput!): CreateConsoleMutationResponse
+    createConsoles(consoles: [CreateConsoleInput!]!): [CreateConsoleMutationResponse!]
+    createCustomer(customer: CreateCustomerInput!): CreateCustomerMutationResponse
+    createCustomerMessageAssociation(customer_message_association: CreateCustomerMessageAssociationInput!): CreateCustomerMessageAssociationMutationResponse
+    createCustomerMessageAssociations(customer_message_associations: [CreateCustomerMessageAssociationInput!]!): [CreateCustomerMessageAssociationMutationResponse!]
+    createCustomers(customers: [CreateCustomerInput!]!): [CreateCustomerMutationResponse!]
+    createDataset(dataset: CreateDatasetInput!): CreateDatasetMutationResponse
+    createDatasets(datasets: [CreateDatasetInput!]!): [CreateDatasetMutationResponse!]
+    createField(field: CreateFieldInput!): CreateFieldMutationResponse
+    createFields(fields: [CreateFieldInput!]!): [CreateFieldMutationResponse!]
+    createMessage(message: CreateMessageInput!): CreateMessageMutationResponse
+    createMessages(messages: [CreateMessageInput!]!): [CreateMessageMutationResponse!]
+    createTable(table: CreateTableInput!): CreateTableMutationResponse
+    createTables(tables: [CreateTableInput!]!): [CreateTableMutationResponse!]
+    deleteConsole(consoleId: ID!): DeleteConsoleMutationResponse
+    deleteConsoles(consoleIdList: [ID!]!): [DeleteConsoleMutationResponse]
+    deleteCustomer(customerId: ID!): DeleteCustomerMutationResponse
+    deleteCustomerMessageAssociation(customer_message_associationId: ID!): DeleteCustomerMessageAssociationMutationResponse
+    deleteCustomerMessageAssociations(customer_message_associationIdList: [ID!]!): [DeleteCustomerMessageAssociationMutationResponse]
+    deleteCustomers(customerIdList: [ID!]!): [DeleteCustomerMutationResponse]
+    deleteDataset(datasetId: ID!): DeleteDatasetMutationResponse
+    deleteDatasets(datasetIdList: [ID!]!): [DeleteDatasetMutationResponse]
+    deleteField(fieldId: ID!): DeleteFieldMutationResponse
+    deleteFields(fieldIdList: [ID!]!): [DeleteFieldMutationResponse]
+    deleteMessage(messageId: ID!): DeleteMessageMutationResponse
+    deleteMessages(messageIdList: [ID!]!): [DeleteMessageMutationResponse]
+    deleteTable(tableId: ID!): DeleteTableMutationResponse
+    deleteTables(tableIdList: [ID!]!): [DeleteTableMutationResponse]
+    login(email: String!, password: String!, userType: String!): LoginMutationResponse!
+    updateConsole(console: UpdateConsoleInput!): UpdateConsoleMutationResponse
+    updateCustomer(customer: UpdateCustomerInput!): UpdateCustomerMutationResponse
+    updateCustomerMessageAssociation(customer_message_association: UpdateCustomerMessageAssociationInput!): UpdateCustomerMessageAssociationMutationResponse
+    updateDataset(dataset: UpdateDatasetInput!): UpdateDatasetMutationResponse
+    updateField(field: UpdateFieldInput!): UpdateFieldMutationResponse
+    updateMessage(message: UpdateMessageInput!): UpdateMessageMutationResponse
+    updateTable(table: UpdateTableInput!): UpdateTableMutationResponse
+}
+
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
+    startCursor: String
+}
+
+type Query {
+    console(consoleId: ID!): Console
+}
+
+type SimpleUserOutput {
+    email: String!
+    id: ID!
+    organizationId: ID!
+    token: String!
+}
+
+type Table {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    dataset: Dataset
+    field(fieldId: ID!): Field!
+    fieldConnection(after: String, filterBy: String, first: Int, orderBy: String): FieldConnection!
+    fields: [Field!]!
+    id: ID
+    "Nombre de la tabla"
+    name: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type TableConnection {
+    edges: [TableNode!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type TableNode {
+    cursor: String!
+    node: Table!
+}
+
+type TableOutput {
+    "Root id"
+    consoleId: ID!
+    "Created datetime"
+    createdAt: Datetime
+    id: ID
+    "Nombre de la tabla"
+    name: String!
+    "Updated datetime"
+    updatedAt: Datetime
+}
+
+type UpdateConsoleMutationResponse implements MutationResponse {
+    console: ConsoleOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateCustomerMessageAssociationMutationResponse implements MutationResponse {
+    customer_message_association: CustomerMessageAssociationOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateCustomerMutationResponse implements MutationResponse {
+    customer: CustomerOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateDatasetMutationResponse implements MutationResponse {
+    dataset: DatasetOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateFieldMutationResponse implements MutationResponse {
+    field: FieldOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateMessageMutationResponse implements MutationResponse {
+    message: MessageOutput
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+}
+
+type UpdateTableMutationResponse implements MutationResponse {
+    responseCode: Int!
+    responseMessage: String!
+    responseSuccess: Boolean!
+    table: TableOutput
+}
+
+enum FieldMode {
+    NULLABLE
+    REPEATED
+    REQUIRED
+}
+
+enum FieldType {
+    BOOL
+    DATE
+    DATETIME
+    FLOAT
+    INTEGER
+    NUMERIC
+    STRING
+    TIME
+    TIMESTAMP
+}
+
+input ConsolePatch {
+    id: ID
+    "Nombre de la consola"
+    name: String
+}
+
+input CreateConsoleInput {
+    id: ID
+    "Nombre de la consola"
+    name: String!
+}
+
+input CreateCustomerInput {
+    "Usuario activo"
+    active: Boolean!
+    "Root id"
+    consoleId: ID!
+    "Correo electrÃ³nico de la persona"
+    email: String!
+    "Nombres de la persona"
+    firstName: String!
+    id: ID
+    "Apellido paterno de la persona"
+    lastName: String!
+    "ContraseÃ±a"
+    password: String!
+    "Apellido materno de la persona"
+    surName: String!
+}
+
+input CreateCustomerMessageAssociationInput {
+    "Root id"
+    consoleId: ID!
+    "Parent"
+    customerId: ID!
+}
+
+input CreateDatasetInput {
+    "Root id"
+    consoleId: ID!
+    id: ID
+    "Nombre del conjunto de datos"
+    name: String!
+}
+
+input CreateFieldInput {
+    "Root id"
+    consoleId: ID!
+    "DescripciÃ³n de la columna"
+    description: String!
+    id: ID
+    "Modo de la columna"
+    mode: FieldMode!
+    "Nombre de la columna"
+    name: String!
+    "Parent"
+    tableId: ID!
+    "Tipo de dato de la columna"
+    type: FieldType!
+}
+
+input CreateMessageInput {
+    "Root id"
+    consoleId: ID!
+    "Contenido del mensaje"
+    content: String!
+    "Parent"
+    customer_message_associationId: ID!
+    id: ID
+    parent: ID!
+    sender: ID!
+}
+
+input CreateTableInput {
+    "Root id"
+    consoleId: ID!
+    "Parent"
+    datasetId: ID!
+    id: ID
+    "Nombre de la tabla"
+    name: String!
+}
+
+input CustomerMessageAssociationPatch {
+    "Root id"
+    consoleId: ID
+}
+
+input CustomerPatch {
+    "Usuario activo"
+    active: Boolean
+    "Root id"
+    consoleId: ID
+    "Correo electrÃ³nico de la persona"
+    email: String
+    "Nombres de la persona"
+    firstName: String
+    id: ID
+    "Apellido paterno de la persona"
+    lastName: String
+    "ContraseÃ±a"
+    password: String
+    "Apellido materno de la persona"
+    surName: String
+}
+
+input DatasetPatch {
+    "Root id"
+    consoleId: ID
+    id: ID
+    "Nombre del conjunto de datos"
+    name: String
+}
+
+input FieldPatch {
+    "Root id"
+    consoleId: ID
+    "DescripciÃ³n de la columna"
+    description: String
+    id: ID
+    "Modo de la columna"
+    mode: FieldMode
+    "Nombre de la columna"
+    name: String
+    "Tipo de dato de la columna"
+    type: FieldType
+}
+
+input MessagePatch {
+    "Root id"
+    consoleId: ID
+    "Contenido del mensaje"
+    content: String
+    id: ID
+    parent: ID
+    sender: ID
+}
+
+input TablePatch {
+    "Root id"
+    consoleId: ID
+    id: ID
+    "Nombre de la tabla"
+    name: String
+}
+
+input UpdateConsoleInput {
+    consoleId: ID!
+    consolePatch: ConsolePatch!
+}
+
+input UpdateCustomerInput {
+    customerId: ID!
+    customerPatch: CustomerPatch!
+}
+
+input UpdateCustomerMessageAssociationInput {
+    customer_message_associationId: ID!
+    customer_message_associationPatch: CustomerMessageAssociationPatch!
+}
+
+input UpdateDatasetInput {
+    datasetId: ID!
+    datasetPatch: DatasetPatch!
+}
+
+input UpdateFieldInput {
+    fieldId: ID!
+    fieldPatch: FieldPatch!
+}
+
+input UpdateMessageInput {
+    messageId: ID!
+    messagePatch: MessagePatch!
+}
+
+input UpdateTableInput {
+    tableId: ID!
+    tablePatch: TablePatch!
+}
+
+
+scalar Datetime
+
+scalar Date
+
+scalar Time

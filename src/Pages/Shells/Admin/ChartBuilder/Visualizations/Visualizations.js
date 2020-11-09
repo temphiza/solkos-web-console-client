@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Button, Card, Menu, Dropdown, Radio, Tabs, Tag, Tooltip, Form, Typography, Divider, Modal, Input, Popover} from 'antd';
+import {Button, Card, Menu, Dropdown, Radio, Tabs, Tag, Tooltip, Form, Typography, Divider, Input, Popover} from 'antd';
 import {useDrop} from 'react-dnd';
 import {ItemTypes} from '../constants';
 import _ from 'lodash';
@@ -19,7 +19,6 @@ const numericFloatOperator = [['SUM', 'sum'], ['AVG', 'avg'], ['MIN', 'min'], ['
 const integerOperator = [['SUM', 'sum'], ['C', 'count'], ['AVG', 'avg'], ['MIN', 'min'], ['MAX', 'max']];
 const stringOperator = [['D', 'distinct'], ['C', 'count']];
 const timestampOperator = [['DAY', 'day'], ['MONTH', 'month'], ['D', 'distinct']];
-const { confirm } = Modal;
 
 
 function Option({field, onChange}) {
@@ -289,8 +288,10 @@ export default function () {
     }
 
     return (
-
-        <Card size={'small'} title={'Visualizaciones'}>
+        <Card
+            style={{height: '100%'}}
+            size={'small'}
+            title={'Visualizaciones'}>
             <Radio.Group onChange={handleOnChangeChartType} value={chartType}>
                 {
                     _.map(catalog, (chart, name) =>

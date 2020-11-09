@@ -3,7 +3,6 @@ import {
     Area,
     Axis,
     Bar,
-    Brush,
     Chart,
     Coord,
     Legend,
